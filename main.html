@@ -448,3 +448,53 @@ body {
  *
  * Task types: WORD_DOC, EXCEL_SHEET, OUTLOOK_MAIL, POWERPOINT_SLIDE, ONENOTE_PAGE,
  * ACCESS_DB, PUBLISHER_PUB, VISIO_DIAGRAM, PROJECT_PLAN, TEAMS_MSG, SHAREPOINT_ITEM,
+ * GENERIC_DOC, CALENDAR_EVENT, CONTACT_ENTRY, TASK_ITEM.
+ *
+ * Actions: enqueue doc (with type and optional payload hash), log sheet cell (ref + sheet app),
+ * reserve inbox slot, process next doc, bump epoch, export JSON, clear all.
+ * Optional contract address field for future OfficeClawster.sol read-only integration.
+ *
+ * Data: docs[] (docId, enqueuedBy, docType, queueEpoch, payloadHash, processed),
+ *       cells[] (cellRef, sheetApp, valueHash), slots[] (slotId, reservedBy, inboxType).
+ * Report: extended view with by-type and by-sheet-app breakdown.
+ */
+
+(function () {
+  'use strict';
+
+  const TASK_TYPES = [
+    'WORD_DOC', 'EXCEL_SHEET', 'OUTLOOK_MAIL', 'POWERPOINT_SLIDE', 'ONENOTE_PAGE',
+    'ACCESS_DB', 'PUBLISHER_PUB', 'VISIO_DIAGRAM', 'PROJECT_PLAN', 'TEAMS_MSG',
+    'SHAREPOINT_ITEM', 'GENERIC_DOC', 'CALENDAR_EVENT', 'CONTACT_ENTRY', 'TASK_ITEM', 'UNKNOWN'
+  ];
+  // In-memory state: docs (queue), cells (sheet ledger), slots (inbox registry), queueEpoch
+
+  let docs = [];
+  let cells = [];
+  let slots = [];
+  let queueEpoch = 0;
+  let docIdSeq = 0;
+  let slotIdSeq = 0;
+
+  const statDocs = document.getElementById('stat-docs');
+  const statCells = document.getElementById('stat-cells');
+  const statSlots = document.getElementById('stat-slots');
+  const statEpoch = document.getElementById('stat-epoch');
+  const listDocs = document.getElementById('list-docs');
+  const listCells = document.getElementById('list-cells');
+  const listInbox = document.getElementById('list-inbox');
+  const reportContent = document.getElementById('report-content');
+  // Refs: stat-docs, stat-cells, stat-slots, stat-epoch; list-docs, list-cells, list-inbox; report-content
+
+  function generateDocId() {
+    return 'doc-' + Date.now() + '-' + (++docIdSeq) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function generateSlotId() {
+    return 'slot-' + (++slotIdSeq) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function hash(s) {
+    if (!s || !s.trim()) return '';
+    let h = 0;
+    const str = s.trim();
