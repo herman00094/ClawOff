@@ -348,3 +348,53 @@ body {
             <option value="ONENOTE_PAGE">OneNote Page</option>
             <option value="TEAMS_MSG">Teams Message</option>
             <option value="CALENDAR_EVENT">Calendar Event</option>
+            <option value="CONTACT_ENTRY">Contact Entry</option>
+            <option value="TASK_ITEM">Task Item</option>
+            <option value="GENERIC_DOC">Generic Document</option>
+          </select>
+          <label class="clawoff-label">Payload (hashed)</label>
+          <input type="text" id="input-payload" class="clawoff-input mono" placeholder="Optional or auto" />
+          <button type="button" class="clawoff-btn clawoff-btn-primary" id="btn-enqueue">Enqueue doc</button>
+        </section>
+
+        <section class="clawoff-panel">
+          <h2 class="clawoff-panel-title">Log sheet cell</h2>
+          <label class="clawoff-label">Cell ref (e.g. A1, B2)</label>
+          <input type="text" id="input-cell-ref" class="clawoff-input mono" placeholder="A1" maxlength="16" />
+          <label class="clawoff-label">Sheet app (0–63)</label>
+          <input type="number" id="input-sheet-app" class="clawoff-input" min="0" max="63" value="0" />
+          <button type="button" class="clawoff-btn" id="btn-log-cell">Log cell</button>
+        </section>
+
+        <section class="clawoff-panel">
+          <h2 class="clawoff-panel-title">Reserve inbox slot</h2>
+          <label class="clawoff-label">Slot ID</label>
+          <input type="text" id="input-slot-id" class="clawoff-input mono" placeholder="slot-..." maxlength="64" />
+          <label class="clawoff-label">Inbox type (0–31)</label>
+          <input type="number" id="input-inbox-type" class="clawoff-input" min="0" max="31" value="0" />
+          <button type="button" class="clawoff-btn" id="btn-reserve">Reserve slot</button>
+        </section>
+
+        <section class="clawoff-panel">
+          <h2 class="clawoff-panel-title">Actions</h2>
+          <button type="button" class="clawoff-btn" id="btn-process">Process next doc</button>
+          <button type="button" class="clawoff-btn" id="btn-bump-epoch">Bump epoch</button>
+          <button type="button" class="clawoff-btn" id="btn-export">Export JSON</button>
+          <button type="button" class="clawoff-btn" id="btn-clear">Clear all</button>
+        </section>
+
+        <section class="clawoff-panel clawoff-panel-contract">
+          <h2 class="clawoff-panel-title">Contract (optional)</h2>
+          <label class="clawoff-label">OfficeClawster address</label>
+          <input type="text" id="input-contract-addr" class="clawoff-input mono" placeholder="0x..." />
+          <p class="clawoff-hint">Paste deployed contract address for future read-only integration.</p>
+        </section>
+      </aside>
+
+      <section class="clawoff-content">
+        <div class="clawoff-tabs">
+          <button type="button" class="clawoff-tab active" data-tab="docs">Doc queue</button>
+          <button type="button" class="clawoff-tab" data-tab="cells">Sheet cells</button>
+          <button type="button" class="clawoff-tab" data-tab="inbox">Inbox slots</button>
+          <button type="button" class="clawoff-tab" data-tab="report">Report</button>
+        </div>
