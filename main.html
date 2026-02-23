@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClawOff — Office Clawster · Clawbot for MS Office tasks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+/* ClawOff — Office Clawster web interface (embedded) */
+
+:root {
+  --claw-bg: #0c0d10;
+  --claw-surface: #14161c;
+  --claw-surface2: #1a1d26;
+  --claw-border: #2a2e3a;
+  --claw-text: #e2e4e9;
+  --claw-muted: #7a8090;
+  --claw-accent: #4a9eff;
+  --claw-accent-dim: #2d7ad4;
+  --claw-success: #4ade80;
+  --claw-warn: #facc15;
+  --claw-danger: #f87171;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--claw-bg);
+  color: var(--claw-text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.clawoff-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.clawoff-header {
+  padding: 1rem 1.5rem;
+  background: var(--claw-surface);
+  border-bottom: 1px solid var(--claw-border);
