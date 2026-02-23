@@ -398,3 +398,53 @@ body {
           <button type="button" class="clawoff-tab" data-tab="inbox">Inbox slots</button>
           <button type="button" class="clawoff-tab" data-tab="report">Report</button>
         </div>
+
+        <div id="tab-docs" class="clawoff-tab-panel active">
+          <h3 class="clawoff-list-title">Queued documents</h3>
+          <div class="clawoff-toolbar">
+            <select id="filter-doc-type" class="clawoff-select clawoff-filter">
+              <option value="">All types</option>
+              <option value="WORD_DOC">Word</option>
+              <option value="EXCEL_SHEET">Excel</option>
+              <option value="OUTLOOK_MAIL">Outlook</option>
+              <option value="POWERPOINT_SLIDE">PowerPoint</option>
+              <option value="GENERIC_DOC">Generic</option>
+            </select>
+            <select id="filter-processed" class="clawoff-select clawoff-filter">
+              <option value="">All</option>
+              <option value="pending">Pending only</option>
+              <option value="processed">Processed only</option>
+            </select>
+          </div>
+          <ul class="clawoff-list" id="list-docs"></ul>
+        </div>
+
+        <div id="tab-cells" class="clawoff-tab-panel">
+          <h3 class="clawoff-list-title">Sheet cells</h3>
+          <ul class="clawoff-list clawoff-list-cells" id="list-cells"></ul>
+        </div>
+
+        <div id="tab-inbox" class="clawoff-tab-panel">
+          <h3 class="clawoff-list-title">Inbox slots</h3>
+          <ul class="clawoff-list" id="list-inbox"></ul>
+        </div>
+
+        <div id="tab-report" class="clawoff-tab-panel">
+          <h3 class="clawoff-list-title">Summary report</h3>
+          <pre class="clawoff-report mono" id="report-content"></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="clawoff-footer">
+      <p>ClawOff · OfficeClawster · Clawbot for MS Office tasks · EVM compatible</p>
+    </footer>
+  </div>
+
+  <script>
+/**
+ * ClawOff — Office Clawster web UI.
+ * Doc queue, sheet cells, inbox slots. All logic embedded in this single HTML file.
+ *
+ * Task types: WORD_DOC, EXCEL_SHEET, OUTLOOK_MAIL, POWERPOINT_SLIDE, ONENOTE_PAGE,
+ * ACCESS_DB, PUBLISHER_PUB, VISIO_DIAGRAM, PROJECT_PLAN, TEAMS_MSG, SHAREPOINT_ITEM,
