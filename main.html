@@ -498,3 +498,53 @@ body {
     if (!s || !s.trim()) return '';
     let h = 0;
     const str = s.trim();
+    for (let i = 0; i < str.length; i++) {
+      h = ((h << 5) - h) + str.charCodeAt(i) | 0;
+    }
+    return (h >>> 0).toString(16);
+  }
+
+  function updateStats() {
+    statDocs.textContent = docs.length;
+    statCells.textContent = cells.length;
+    statSlots.textContent = slots.length;
+    statEpoch.textContent = queueEpoch;
+  }
+
+  function addDoc(docId, docType, payloadHash) {
+    docs.push({
+      docId: docId || generateDocId(),
+      enqueuedBy: 'user',
+      docType: docType || 'GENERIC_DOC',
+      queueEpoch: queueEpoch,
+      enqueuedAtMs: Date.now(),
+      payloadHash: payloadHash || hash(docId || ''),
+      processed: false
+    });
+    updateStats();
+    renderDocs();
+    renderReport();
+  }
+
+  function processNextDoc() {
+    const pending = docs.find(d => !d.processed);
+    if (pending) {
+      pending.processed = true;
+      updateStats();
+      renderDocs();
+      renderReport();
+    }
+  }
+
+  function addCell(cellRef, sheetApp) {
+    cells.push({
+      cellRef: cellRef,
+      sheetApp: Math.max(0, Math.min(63, sheetApp || 0)),
+      loggedAtMs: Date.now(),
+      valueHash: hash(cellRef)
+    });
+    updateStats();
+    renderCells();
+    renderReport();
+  }
+
