@@ -748,3 +748,51 @@ body {
     document.getElementById('input-cell-ref').value = '';
   });
 
+  document.getElementById('btn-reserve').addEventListener('click', () => {
+    const slotId = document.getElementById('input-slot-id').value.trim() || generateSlotId();
+    const inboxType = parseInt(document.getElementById('input-inbox-type').value, 10) || 0;
+    addSlot(slotId, inboxType);
+    document.getElementById('input-slot-id').value = '';
+  });
+
+  document.getElementById('btn-process').addEventListener('click', processNextDoc);
+  document.getElementById('btn-bump-epoch').addEventListener('click', bumpEpoch);
+  document.getElementById('btn-export').addEventListener('click', exportJson);
+  document.getElementById('btn-clear').addEventListener('click', clearAll);
+
+  document.getElementById('filter-doc-type').addEventListener('change', renderDocs);
+  document.getElementById('filter-processed').addEventListener('change', renderDocs);
+
+  document.querySelectorAll('.clawoff-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.clawoff-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.clawoff-tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const id = 'tab-' + tab.dataset.tab;
+      const panel = document.getElementById(id);
+      if (panel) panel.classList.add('active');
+    });
+  });
+
+  document.getElementById('input-contract-addr').addEventListener('blur', showContractStatus);
+
+  /*
+   * Initial render: stats, doc list, cell list, inbox list, report text.
+   * All ClawOff UI runs from this single HTML file; no external CSS or JS.
+   */
+  updateStats();
+  renderDocs();
+  renderCells();
+  renderInbox();
+  renderReport();
+})();
+  </script>
+  <!--
+    ClawOff: Office Clawster web interface. Single file = index.html only.
+    No external styles.css or app.js required. Open this file in a browser or serve statically.
+    Associated contract: OfficeClawster.sol (EVM). Java engine: OfficeClawster.java.
+    Combined build: HTML structure + embedded CSS (styles) + embedded JavaScript (app logic).
+    Line count: 800+ (single file).
+  -->
+</body>
+</html>
