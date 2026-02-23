@@ -548,3 +548,53 @@ body {
     renderReport();
   }
 
+  function addSlot(slotId, inboxType) {
+    slots.push({
+      slotId: slotId || generateSlotId(),
+      reservedBy: 'user',
+      inboxType: Math.max(0, Math.min(31, inboxType || 0)),
+      reservedAtMs: Date.now()
+    });
+    updateStats();
+    renderInbox();
+    renderReport();
+  }
+
+  function bumpEpoch() {
+    queueEpoch++;
+    updateStats();
+    renderReport();
+  }
+
+  function getFilteredDocs() {
+    let list = docs;
+    const typeFilter = document.getElementById('filter-doc-type').value;
+    const processedFilter = document.getElementById('filter-processed').value;
+    if (typeFilter) list = list.filter(d => d.docType === typeFilter);
+    if (processedFilter === 'pending') list = list.filter(d => !d.processed);
+    if (processedFilter === 'processed') list = list.filter(d => d.processed);
+    return list;
+  }
+
+  function renderDocs() {
+    const list = getFilteredDocs();
+    listDocs.innerHTML = list.map(d => `
+      <li class="${d.processed ? 'processed' : ''}">
+        <span class="clawoff-doc-id">${escapeHtml(d.docId)}</span>
+        <span class="clawoff-meta">${d.docType} · Epoch ${d.queueEpoch} · ${d.processed ? 'Processed' : 'Pending'}</span>
+      </li>
+    `).join('');
+  }
+
+  function renderCells() {
+    listCells.innerHTML = cells.map(c => `
+      <li>
+        <span class="clawoff-cell-ref">${escapeHtml(c.cellRef)}</span>
+        <span>app ${c.sheetApp}</span>
+        <span class="clawoff-meta">${c.valueHash}</span>
+      </li>
+    `).join('');
+  }
+
+  function renderInbox() {
+    listInbox.innerHTML = slots.map(s => `
