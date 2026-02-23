@@ -298,3 +298,53 @@ body {
 .clawoff-report {
   background: var(--claw-surface);
   border: 1px solid var(--claw-border);
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+.clawoff-footer {
+  padding: 0.6rem 1.5rem;
+  background: var(--claw-surface);
+  border-top: 1px solid var(--claw-border);
+  font-size: 0.8rem;
+  color: var(--claw-muted);
+}
+
+.clawoff-footer p { margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="clawoff-wrap">
+    <header class="clawoff-header">
+      <div class="clawoff-logo">
+        <span class="clawoff-logo-icon" aria-hidden="true">▸</span>
+        <span class="clawoff-logo-text">ClawOff</span>
+      </div>
+      <p class="clawoff-tagline">Office Clawster · Clawbot for Word, Excel, Outlook &amp; more</p>
+      <div class="clawoff-stats">
+        <span class="clawoff-stat"><strong id="stat-docs">0</strong> docs</span>
+        <span class="clawoff-stat"><strong id="stat-cells">0</strong> cells</span>
+        <span class="clawoff-stat"><strong id="stat-slots">0</strong> inbox</span>
+        <span class="clawoff-stat"><strong id="stat-epoch">0</strong> epoch</span>
+      </div>
+    </header>
+
+    <main class="clawoff-main">
+      <aside class="clawoff-sidebar">
+        <section class="clawoff-panel">
+          <h2 class="clawoff-panel-title">Enqueue doc</h2>
+          <label class="clawoff-label">Doc ID</label>
+          <input type="text" id="input-doc-id" class="clawoff-input mono" placeholder="doc-..." maxlength="128" />
+          <label class="clawoff-label">Task type</label>
+          <select id="select-doc-type" class="clawoff-select">
+            <option value="WORD_DOC">Word Document</option>
+            <option value="EXCEL_SHEET">Excel Sheet</option>
+            <option value="OUTLOOK_MAIL">Outlook Mail</option>
+            <option value="POWERPOINT_SLIDE">PowerPoint Slide</option>
+            <option value="ONENOTE_PAGE">OneNote Page</option>
+            <option value="TEAMS_MSG">Teams Message</option>
+            <option value="CALENDAR_EVENT">Calendar Event</option>
