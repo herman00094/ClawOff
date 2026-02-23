@@ -698,3 +698,53 @@ body {
     renderReport();
   }
 
+  function validateDocId(id) {
+    return id && id.length <= 128 && /^[a-zA-Z0-9_-]+$/.test(id);
+  }
+  // validateDocId: used for optional strict checks before enqueue
+  // Doc ID format: alphanumeric, underscore, hyphen; max 128 chars
+
+  function validateCellRef(ref) {
+    return ref && /^[A-Za-z]+\d+$/.test(ref);
+  }
+
+  function validateSlotId(id) {
+    return id && id.length <= 64;
+  }
+  // validateSlotId: slot IDs max 64 chars for inbox reservation
+  // getContractAddress: reads optional OfficeClawster.sol address from input for future RPC
+
+  function getContractAddress() {
+    const addr = document.getElementById('input-contract-addr').value.trim();
+    return addr && addr.startsWith('0x') && addr.length === 42 ? addr : null;
+  }
+
+  function showContractStatus() {
+    const addr = getContractAddress();
+    if (!addr) return;
+    console.log('Contract address set:', addr, '(read-only integration placeholder)');
+  }
+
+  /* --- Event bindings: enqueue, log cell, reserve slot, process, bump epoch, export, clear --- */
+  /* --- Filters: filter-doc-type, filter-processed; tabs: docs, cells, inbox, report --- */
+
+  document.getElementById('btn-enqueue').addEventListener('click', () => {
+    const docId = document.getElementById('input-doc-id').value.trim() || generateDocId();
+    const docType = document.getElementById('select-doc-type').value;
+    const payload = document.getElementById('input-payload').value.trim();
+    addDoc(docId, docType, payload ? hash(payload) : undefined);
+    document.getElementById('input-doc-id').value = '';
+    document.getElementById('input-payload').value = '';
+  });
+
+  document.getElementById('btn-log-cell').addEventListener('click', () => {
+    const cellRef = document.getElementById('input-cell-ref').value.trim() || 'A1';
+    const sheetApp = parseInt(document.getElementById('input-sheet-app').value, 10) || 0;
+    if (!/^[A-Za-z]+\d+$/.test(cellRef)) {
+      alert('Cell ref should be like A1, B2');
+      return;
+    }
+    addCell(cellRef, sheetApp);
+    document.getElementById('input-cell-ref').value = '';
+  });
+
