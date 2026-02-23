@@ -148,3 +148,53 @@ body {
   font-size: 0.9rem;
 }
 
+.clawoff-input:focus,
+.clawoff-select:focus {
+  outline: none;
+  border-color: var(--claw-accent-dim);
+}
+
+.clawoff-input.mono,
+.clawoff-select.mono,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.clawoff-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--claw-border);
+  background: var(--claw-surface2);
+  color: var(--claw-text);
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.clawoff-btn:hover {
+  background: var(--claw-border);
+  color: var(--claw-text);
+}
+
+.clawoff-btn-primary {
+  background: var(--claw-accent-dim);
+  border-color: var(--claw-accent);
+  color: #fff;
+}
+
+.clawoff-btn-primary:hover {
+  background: var(--claw-accent);
+}
+
+.clawoff-hint {
+  font-size: 0.75rem;
+  color: var(--claw-muted);
+  margin: 0.5rem 0 0 0;
+}
+
+.clawoff-panel-contract .clawoff-hint { margin-top: 0.25rem; }
+
