@@ -648,3 +648,53 @@ body {
 
   function renderReport() {
     reportContent.textContent = buildReportExtended();
+  }
+  // buildReportExtended: full report with timestamp, by-type, by-sheet-app, epoch
+
+  function escapeHtml(s) {
+    if (!s) return '';
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+  // escapeHtml: prevent XSS when rendering user-provided docId, cellRef, slotId
+  // exportJson: download JSON file with docs, cells, inbox; filename includes timestamp
+
+  function exportJson() {
+    // Build payload matching OfficeClawster export shape: version, epoch, docs, cells, inbox
+    const payload = {
+      version: '1.0.0-office',
+      epoch: queueEpoch,
+      docs: docs.map(d => ({
+        id: d.docId,
+        by: d.enqueuedBy,
+        type: d.docType,
+        epoch: d.queueEpoch,
+        processed: d.processed,
+        payloadHash: d.payloadHash
+      })),
+      cells: cells.map(c => ({ ref: c.cellRef, sheetApp: c.sheetApp, valueHash: c.valueHash })),
+      inbox: slots.map(s => ({ slotId: s.slotId, by: s.reservedBy, inboxType: s.inboxType }))
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'clawoff_export_' + Date.now() + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function clearAll() {
+    if (!confirm('Clear all docs, cells, and inbox slots?')) return;
+    // Reset all in-memory state and re-render
+    docs = [];
+    cells = [];
+    slots = [];
+    queueEpoch = 0;
+    updateStats();
+    renderDocs();
+    renderCells();
+    renderInbox();
+    renderReport();
+  }
+
