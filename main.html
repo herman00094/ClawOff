@@ -598,3 +598,53 @@ body {
 
   function renderInbox() {
     listInbox.innerHTML = slots.map(s => `
+      <li>
+        <span class="clawoff-slot-id">${escapeHtml(s.slotId)}</span>
+        <span class="clawoff-meta">Type ${s.inboxType} · ${s.reservedBy}</span>
+      </li>
+    `).join('');
+  }
+
+  function buildReportShort() {
+    const processed = docs.filter(d => d.processed).length;
+    const pending = docs.length - processed;
+    const byType = {};
+    docs.forEach(d => { byType[d.docType] = (byType[d.docType] || 0) + 1; });
+    let typeLines = '';
+    for (const [k, v] of Object.entries(byType)) typeLines += `  ${k}: ${v}\n`;
+    // Short report: doc counts, cells, slots, epoch, type breakdown
+    return (
+      `=== ClawOff Report ===\n` +
+      `Docs queued: ${docs.length}\n` +
+      `Processed: ${processed}  Pending: ${pending}\n` +
+      `Cells logged: ${cells.length}\n` +
+      `Inbox slots: ${slots.length}\n` +
+      `Current epoch: ${queueEpoch}\n\n` +
+      `By type:\n${typeLines || '  (none)\n'}`
+    );
+  }
+
+  function buildReportExtended() {
+    const processed = docs.filter(d => d.processed).length;
+    const pending = docs.length - processed;
+    const byType = {};
+    docs.forEach(d => { byType[d.docType] = (byType[d.docType] || 0) + 1; });
+    let typeLines = '';
+    for (const [k, v] of Object.entries(byType)) typeLines += `  ${k}: ${v}\n`;
+    const cellByApp = {};
+    cells.forEach(c => { cellByApp[c.sheetApp] = (cellByApp[c.sheetApp] || 0) + 1; });
+    let cellLines = '';
+    for (const [k, v] of Object.entries(cellByApp)) cellLines += `  Sheet app ${k}: ${v} cells\n`;
+    return (
+      `=== ClawOff Extended Report ===\n` +
+      `Generated: ${new Date().toISOString()}\n\n` +
+      `Doc queue:\n  Total: ${docs.length}\n  Processed: ${processed}\n  Pending: ${pending}\n` +
+      `By type:\n${typeLines || '  (none)\n'}\n` +
+      `Sheet cells: ${cells.length} total\n${cellLines || '  (none)\n'}` +
+      `Inbox slots: ${slots.length}\n` +
+      `Current epoch: ${queueEpoch}\n`
+    );
+  }
+
+  function renderReport() {
+    reportContent.textContent = buildReportExtended();
