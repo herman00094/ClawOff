@@ -198,3 +198,53 @@ body {
 
 .clawoff-panel-contract .clawoff-hint { margin-top: 0.25rem; }
 
+.clawoff-content {
+  padding: 1rem;
+  overflow-y: auto;
+  background: var(--claw-bg);
+}
+
+.clawoff-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.clawoff-tab {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--claw-border);
+  border-radius: 6px;
+  background: var(--claw-surface);
+  color: var(--claw-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.clawoff-tab:hover {
+  color: var(--claw-text);
+}
+
+.clawoff-tab.active {
+  background: var(--claw-accent-dim);
+  border-color: var(--claw-accent);
+  color: #fff;
+}
+
+.clawoff-tab-panel {
+  display: none;
+}
+
+.clawoff-tab-panel.active {
+  display: block;
+}
+
+.clawoff-list-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--claw-text);
+  margin: 0 0 0.75rem 0;
+}
+
+.clawoff-toolbar {
+  display: flex;
